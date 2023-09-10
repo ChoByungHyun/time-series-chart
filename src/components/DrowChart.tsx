@@ -66,11 +66,11 @@ const ComplexChart: React.FC<Props> = ({ data }) => {
         label: "value_area",
         fill: {
           target: "origin",
-          above: "rgb(61, 50, 50)",
-          below: "rgb(55, 55, 66)",
+          above: "rgba(61, 50, 50, 0.5)", // 위쪽 영역의 색상 및 투명도 설정
+          below: "rgba(55, 55, 66, 0.2)", // 아래쪽 영역의 색상 및 투명도 설정
         },
         borderWidth: 0,
-        backgroundColor: "rgba(75,192,192,0.2)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)", // 그래프의 선 아래 영역의 기본 색상 및 투명도 설정
         data: areaValues,
         yAxisID: "leftYAxis",
       },
@@ -132,6 +132,13 @@ const ComplexChart: React.FC<Props> = ({ data }) => {
           },
         },
       },
+    },
+    onClick: (e, elements) => {
+      if (elements.length > 0) {
+        const dataIndex = elements[0].index;
+        const clickedId = ids[dataIndex];
+        handleFilter(clickedId === highlightedId ? null : clickedId);
+      }
     },
   };
 
@@ -206,7 +213,7 @@ const SFilterBtn = styled.button`
   padding: 5px;
   border: 1px solid var(--gray-400);
   &.highlighted-button {
-    background-color: blue; // 하이라이트된 버튼의 배경색
+    background-color: #6565c1; // 하이라이트된 버튼의 배경색
     color: white; // 하이라이트된 버튼의 텍스트 색상
   }
 `;
