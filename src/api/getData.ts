@@ -2,7 +2,7 @@ import axiosInstance from "./axiosInstance";
 
 const ENDPOINT_SICK = "/response";
 
-const getClinicalTrial = async () => {
+const getData = async () => {
   try {
     const response = await axiosInstance.get(ENDPOINT_SICK);
     return response.data;
@@ -12,4 +12,4 @@ const getClinicalTrial = async () => {
   }
 };
 
-export default getClinicalTrial;
+export default getData;

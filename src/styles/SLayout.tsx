@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const SLayout = styled.div`
   position: relative;
-  max-width: 900px;
+  max-width: 1200px;
   min-width: 400px;
   min-height: 100vh;
   margin: 0 auto;
