@@ -1,6 +1,5 @@
 import moment from "moment";
 
-// chartOptions.js
 const generateChartOptions = (
   ids: string[],
   highlightedId: string | null,

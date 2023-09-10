@@ -63,7 +63,7 @@ const ComplexChart: React.FC<Props> = ({ data }) => {
     setActiveFilter(id); // 필터링 버튼을 활성화하기 위해 추가
   };
 
-  const chartData = generateChartData(dates, areaValues, barValues, ids);
+  const chartData = generateChartData(dates, areaValues, barValues);
   const chartOptions = generateChartOptions(
     ids,
     highlightedId,

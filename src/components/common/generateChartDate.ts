@@ -1,9 +1,7 @@
-// chartData.js
 const generateChartData = (
   dates: string[],
   areaValues: number[],
-  barValues: number[],
-  ids: string[]
+  barValues: number[]
 ) => {
   return {
     labels: dates,

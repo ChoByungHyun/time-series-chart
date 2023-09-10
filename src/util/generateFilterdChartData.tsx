@@ -1,5 +1,3 @@
-import { ChartData } from "chart.js";
-
 const generateFilteredChartData = (
   chartData: any,
   ids: string[],
