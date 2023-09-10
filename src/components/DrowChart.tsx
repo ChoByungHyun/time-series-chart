@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Chart } from "react-chartjs-2";
+import "chartjs-adapter-moment";
+import moment from "moment";
+import styled from "styled-components";
 import {
   Chart as ChartJS,
   LinearScale,
@@ -12,9 +15,9 @@ import {
   LineController,
   BarController,
   TimeScale,
-  Ticks,
   Filler,
-  DatasetController,
+  Title,
+  CategoryScale as CategoryScaleController,
 } from "chart.js";
 
 ChartJS.register(
@@ -28,7 +31,9 @@ ChartJS.register(
   LineController,
   BarController,
   TimeScale,
-  Filler
+  Filler,
+  Title,
+  CategoryScaleController
 );
 
 interface DataPoint {
@@ -42,30 +47,32 @@ interface Props {
 }
 
 const ComplexChart: React.FC<Props> = ({ data }) => {
-  // 데이터에서 날짜와 해당 값들을 추출
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+
   const dates = Object.keys(data);
   const areaValues = dates.map((date) => data[date].value_area);
   const barValues = dates.map((date) => data[date].value_bar);
-  const ids = dates.map((date) => data[date].id); // id 값을 추출
+  const ids = dates.map((date) => data[date].id);
 
-  // Area 그래프와 Bar 그래프를 위한 데이터 설정
+  const handleFilter = (id: string | null) => {
+    setHighlightedId(id);
+  };
+
   const chartData = {
     labels: dates,
     datasets: [
       {
         type: "line",
         label: "value_area",
-
         fill: {
           target: "origin",
-          above: "rgb(255, 0, 0)", // Area will be red above the origin
-          below: "rgb(0, 0, 255)", // And blue below the origin
+          above: "rgb(61, 50, 50)",
+          below: "rgb(55, 55, 66)",
         },
+        borderWidth: 0,
         backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)",
-        borderWidth: 2,
         data: areaValues,
-        yAxisID: "leftYAxis", // 좌측 Y축에 할당
+        yAxisID: "leftYAxis",
       },
       {
         type: "bar",
@@ -74,10 +81,11 @@ const ComplexChart: React.FC<Props> = ({ data }) => {
         borderColor: "rgba(255,99,132,1)",
         borderWidth: 1,
         data: barValues,
-        yAxisID: "rightYAxis", // 우측 Y축에 할당
+        yAxisID: "rightYAxis",
       },
     ],
   };
+
   const chartOptions = {
     scales: {
       leftYAxis: {
@@ -90,14 +98,36 @@ const ComplexChart: React.FC<Props> = ({ data }) => {
         id: "right-y-axis",
         position: "right",
       },
-      x: {},
+      x: {
+        type: "time",
+        time: {
+          unit: "second",
+          stepSize: 35,
+          displayFormats: {
+            second: "HH:mm:ss",
+            minute: "HH:mm:ss",
+            hour: "HH:mm:ss",
+            day: "YYYY-MM-DD",
+          },
+          tooltipFormat: "YYYY-MM-DD HH:mm:ss",
+        },
+        title: {
+          display: true,
+          align: "start",
+          text: moment(Object.keys(data)[0]).format("YYYY-MM-DD") + "일자",
+        },
+        ticks: {
+          autoSkip: true,
+          maxRotation: 0,
+          autoSkipPadding: 15,
+        },
+      },
     },
-
     plugins: {
       tooltip: {
         callbacks: {
           label: (context) => {
-            const id = ids[context.dataIndex]; // 데이터 포인트의 id 가져오기
+            const id = ids[context.dataIndex];
             return `ID: ${id} , ${context.dataset.label}: ${context.parsed.y}`;
           },
         },
@@ -105,11 +135,79 @@ const ComplexChart: React.FC<Props> = ({ data }) => {
     },
   };
 
+  const filteredChartData = {
+    ...chartData,
+    datasets: chartData.datasets.map((dataset) => ({
+      ...dataset,
+      backgroundColor: (context) => {
+        const dataIndex = context.dataIndex;
+        const id = ids[dataIndex];
+        if (id === highlightedId) {
+          return "rgba(0, 255, 60, 0.2)";
+        } else {
+          return dataset.label === "value_area"
+            ? "rgba(66, 72, 72, 0.2)" // Area 그래프의 기본 색상
+            : "rgba(255, 0, 55, 0.2)"; // Bar 그래프의 기본 색상
+        }
+      },
+      borderColor: (context) => {
+        const dataIndex = context.dataIndex;
+        const id = ids[dataIndex];
+        if (id === highlightedId) {
+          return "rgba(0, 255, 60, 0)"; // 하이라이트된 데이터는 테두리 없음
+        } else {
+          return dataset.label === "value_area"
+            ? "rgba(75,192,192,0)" // Area 그래프의 기본 테두리
+            : "rgba(255,99,132,0)"; // Bar 그래프의 기본 테두리
+        }
+      },
+      borderWidth: (context) => {
+        const dataIndex = context.dataIndex;
+        const id = ids[dataIndex];
+        return id === highlightedId ? 0 : 1; // 하이라이트된 데이터의 선 두께를 0으로 설정
+      },
+      data: dataset.data.map((value, index) =>
+        highlightedId === null || ids[index] === highlightedId ? value : value
+      ),
+    })),
+  };
+
   return (
     <div>
-      <Chart type="bar" data={chartData} options={chartOptions} />
+      <SBtnLayout>
+        <SFilterBtn
+          key="all"
+          onClick={() => handleFilter(null)}
+          className={highlightedId === null ? "highlighted-button" : ""}
+        >
+          전체
+        </SFilterBtn>
+        {Array.from(new Set(ids)).map((id) => (
+          <SFilterBtn
+            key={id}
+            onClick={() => handleFilter(id)}
+            className={highlightedId === id ? "highlighted-button" : ""}
+          >
+            {id}
+          </SFilterBtn>
+        ))}
+      </SBtnLayout>
+      <Chart type="bar" data={filteredChartData} options={chartOptions} />
     </div>
   );
 };
 
+const SBtnLayout = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+const SFilterBtn = styled.button`
+  border-radius: 10px;
+  padding: 5px;
+  border: 1px solid var(--gray-400);
+  &.highlighted-button {
+    background-color: blue; // 하이라이트된 버튼의 배경색
+    color: white; // 하이라이트된 버튼의 텍스트 색상
+  }
+`;
 export default ComplexChart;
