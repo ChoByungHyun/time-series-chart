@@ -48,6 +48,7 @@ interface Props {
 
 const ComplexChart: React.FC<Props> = ({ data }) => {
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
   const dates = Object.keys(data);
   const areaValues = dates.map((date) => data[date].value_area);
@@ -56,6 +57,7 @@ const ComplexChart: React.FC<Props> = ({ data }) => {
 
   const handleFilter = (id: string | null) => {
     setHighlightedId(id);
+    setActiveFilter(id); // 필터링 버튼을 활성화하기 위해 추가
   };
 
   const chartData = {
@@ -182,21 +184,21 @@ const ComplexChart: React.FC<Props> = ({ data }) => {
   return (
     <div>
       <SBtnLayout>
-        <SFilterBtn
+        <SFillterBtn
           key="all"
           onClick={() => handleFilter(null)}
-          className={highlightedId === null ? "highlighted-button" : ""}
+          className={activeFilter === null ? "active" : ""}
         >
           전체
-        </SFilterBtn>
+        </SFillterBtn>
         {Array.from(new Set(ids)).map((id) => (
-          <SFilterBtn
+          <SFillterBtn
             key={id}
             onClick={() => handleFilter(id)}
-            className={highlightedId === id ? "highlighted-button" : ""}
+            className={activeFilter === id ? "active" : ""}
           >
             {id}
-          </SFilterBtn>
+          </SFillterBtn>
         ))}
       </SBtnLayout>
       <Chart type="bar" data={filteredChartData} options={chartOptions} />
@@ -208,11 +210,11 @@ const SBtnLayout = styled.div`
   display: flex;
   gap: 5px;
 `;
-const SFilterBtn = styled.button`
+const SFillterBtn = styled.button`
   border-radius: 10px;
   padding: 5px;
   border: 1px solid var(--gray-400);
-  &.highlighted-button {
+  &.active {
     background-color: #6565c1; // 하이라이트된 버튼의 배경색
     color: white; // 하이라이트된 버튼의 텍스트 색상
   }
