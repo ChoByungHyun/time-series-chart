@@ -65,6 +65,9 @@ const generateChartOptions = (
       },
     },
     plugins: {
+      filler: {
+        propagate: true,
+      },
       tooltip: {
         callbacks: {
           beforeBody: function (TooltipItems: any) {

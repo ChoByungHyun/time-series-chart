@@ -12,24 +12,22 @@ const generateChartData = (
       {
         type: "line" as const,
         label: "value_area",
-        fill: {
-          target: "origin",
-          above: "rgba(61, 50, 50, 0.7)",
-          below: "rgba(55, 55, 66, 0.5)",
-        },
+        fill: true,
         borderWidth: 0,
         data: areaValues,
         yAxisID: "leftYAxis",
-        backgroundColor: "rgba(33, 35, 35, 0.9)",
+        backgroundColor: "rgba(222, 135, 53, 0.6)",
       },
       {
         type: "bar" as const,
         label: "value_bar",
         data: barValues,
         yAxisID: "rightYAxis",
+        hoverBackgroundColor: "rgba(10, 69, 24,0.8)",
+
         backgroundColor: barValues.map((value, index) => {
           if (highlightedId && ids[index] === highlightedId) {
-            return "rgba(10, 69, 24, 0.9)";
+            return "rgb(10, 69, 24)";
           } else {
             return "rgba(76, 183, 101, 0.6)";
           }

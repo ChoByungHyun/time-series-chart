@@ -114,12 +114,15 @@ const SBtnLayout = styled.div`
   gap: 5px;
 `;
 const SFillterBtn = styled.button`
+  font-size: 16px;
+
   border-radius: 10px;
-  padding: 5px;
-  border: 1px solid var(--gray-400);
+  padding: 5px 15px;
+  border: 2px solid var(--gray-400);
   &.active {
-    background-color: #6565c1; // 하이라이트된 버튼의 배경색
-    color: white; // 하이라이트된 버튼의 텍스트 색상
+    background-color: #6565c1;
+    color: white;
+    border: 2px solid #6565c1;
   }
 `;
 export default DrowChart;
