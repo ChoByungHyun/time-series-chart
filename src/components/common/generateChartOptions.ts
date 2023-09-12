@@ -65,6 +65,15 @@ const generateChartOptions = (
       },
     },
     plugins: {
+      tooltip: {
+        callbacks: {
+          beforeBody: function (TooltipItems: any) {
+            const idx = TooltipItems[0].dataIndex;
+            const id = ids[idx];
+            return `ID: ${id}`;
+          },
+        },
+      },
       legend: {
         position: "bottom" as const,
       },
