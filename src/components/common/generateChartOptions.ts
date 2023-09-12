@@ -17,10 +17,16 @@ const generateChartOptions = (
         position: "left",
         min: 0,
         max: 200,
+        ticks: {
+          stepSize: 50,
+        },
       },
       rightYAxis: {
         id: "right-y-axis",
         position: "right",
+        ticks: {
+          stepSize: 5000,
+        },
       },
       x: {
         type: "time",
@@ -43,7 +49,7 @@ const generateChartOptions = (
         ticks: {
           autoSkip: true,
           maxRotation: 0,
-          autoSkipPadding: 15,
+          autoSkipPadding: 60,
           source: "data",
         },
       },
@@ -52,8 +58,20 @@ const generateChartOptions = (
       tooltip: {
         callbacks: {
           label: (context: any) => {
-            const id = ids[context.dataIndex];
-            return `ID: ${id} , ${context.dataset.label}: ${context.parsed.y}`;
+            const dataIndex = context.dataIndex;
+            const id = ids[dataIndex];
+            const label = `ID: ${id}`;
+            const datasetLabels = [];
+
+            for (const dataset of context.chart.data.datasets) {
+              const valueKey = dataset.label;
+              const value = dataset.data[dataIndex];
+              if (valueKey !== id) {
+                datasetLabels.push(`${valueKey}: ${value}`);
+              }
+            }
+
+            return `${label}\n${datasetLabels.join("\n")}`;
           },
         },
       },

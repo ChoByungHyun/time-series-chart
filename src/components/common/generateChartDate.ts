@@ -11,8 +11,8 @@ const generateChartData = (
         label: "value_area",
         fill: {
           target: "origin",
-          above: "rgba(61, 50, 50, 0.5)",
-          below: "rgba(55, 55, 66, 0.2)",
+          above: "rgba(61, 50, 50, 0.7)",
+          below: "rgba(55, 55, 66, 0.5)",
         },
         borderWidth: 0,
 
