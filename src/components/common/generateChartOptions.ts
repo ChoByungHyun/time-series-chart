@@ -1,19 +1,27 @@
 import moment from "moment";
-
+import type { ChartOptions } from "chart.js";
 const generateChartOptions = (
   ids: string[],
   highlightedId: string | null,
   data: Record<string, any>,
   handleFilter: (id: string | null) => void
-) => {
+): ChartOptions<"line"> => {
   const firstDataKey = Object.keys(data)[0];
   const firstDataTimestamp = moment(firstDataKey, "YYYY-MM-DD HH:mm:ss");
   const formattedDate = firstDataTimestamp.format("YYYY-MM-DD");
 
   return {
+    responsive: true,
+    interaction: {
+      intersect: false,
+      mode: "index",
+    },
     scales: {
       leftYAxis: {
-        id: "left-y-axis",
+        title: {
+          display: true,
+          text: "Area",
+        },
         position: "left",
         min: 0,
         max: 200,
@@ -22,7 +30,10 @@ const generateChartOptions = (
         },
       },
       rightYAxis: {
-        id: "right-y-axis",
+        title: {
+          display: true,
+          text: "Bar",
+        },
         position: "right",
         ticks: {
           stepSize: 5000,
@@ -32,7 +43,6 @@ const generateChartOptions = (
         type: "time",
         time: {
           unit: "second",
-          stepSize: 35,
           displayFormats: {
             second: "HH:mm:ss",
             minute: "HH:mm:ss",
@@ -55,25 +65,8 @@ const generateChartOptions = (
       },
     },
     plugins: {
-      tooltip: {
-        callbacks: {
-          label: (context: any) => {
-            const dataIndex = context.dataIndex;
-            const id = ids[dataIndex];
-            const label = `ID: ${id}`;
-            const datasetLabels = [];
-
-            for (const dataset of context.chart.data.datasets) {
-              const valueKey = dataset.label;
-              const value = dataset.data[dataIndex];
-              if (valueKey !== id) {
-                datasetLabels.push(`${valueKey}: ${value}`);
-              }
-            }
-
-            return `${label}\n${datasetLabels.join("\n")}`;
-          },
-        },
+      legend: {
+        position: "bottom" as const,
       },
     },
     onClick: (e: any, elements: any) => {

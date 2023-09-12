@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Chart } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 import styled from "styled-components";
-import { generateFilteredChartData } from "util/generateFilterdChartData";
 import generateChartData from "./common/generateChartDate";
 import generateChartOptions from "./common/generateChartOptions";
 
@@ -61,22 +60,28 @@ const DrowChart: React.FC<Props> = ({ data }) => {
   const ids = dates.map((date) => data[date].id);
 
   const handleFilter = (id: string | null) => {
-    setHighlightedId(id);
-    setActiveFilter(id); // 필터링 버튼을 활성화하기 위해 추가
+    if (highlightedId === id) {
+      setHighlightedId(null);
+      setActiveFilter(null);
+    } else {
+      setHighlightedId(id);
+      setActiveFilter(id);
+    }
   };
 
-  const chartData = generateChartData(dates, areaValues, barValues);
+  const chartData = generateChartData(
+    dates,
+    areaValues,
+    barValues,
+    ids,
+    highlightedId
+  );
+
   const chartOptions = generateChartOptions(
     ids,
     highlightedId,
     data,
     handleFilter
-  );
-
-  const filteredChartData = generateFilteredChartData(
-    chartData,
-    ids,
-    highlightedId
   );
 
   return (
@@ -99,7 +104,7 @@ const DrowChart: React.FC<Props> = ({ data }) => {
           </SFillterBtn>
         ))}
       </SBtnLayout>
-      <Chart type="bar" data={filteredChartData} options={chartOptions} />
+      <Line data={chartData} options={chartOptions} />
     </div>
   );
 };
