@@ -15,22 +15,22 @@ db.json에 있는 데이터를 복합 그래프로 나타내는 프로젝트입�
 
 ## ⚙️ 실행 방법
 
-#### 현재 레포 clone 후 로컬실행
+#### 로컬실행
 
 ```
 git clone https://github.com/ChoByungHyun/time-series-chart.git
+echo "REACT_APP_SERVER_URL = \"https://ink-ambitious-spirit.glitch.me\"" > .env
 npm install
-npm run server
 npm run start
 ```
 
 ## 🔗 배포 링크
 
-## 🧰 기술 전략
+배포 URL - [time-series-chart-eight.vercel.app](time-series-chart-eight.vercel.app)
 
-```
+## 🖼️ 실행 화면
 
-```
+![Alt text](image.png)
 
 ## 📂 폴더 구조
 
@@ -43,11 +43,9 @@ project-root/
 │
 ├── src/ # 소스 코드
 │ ├── components/    # 재사용 컴포넌트들
-│ ├── hooks/         # custom hooks
 │ ├── api/           # api 함수들
 │ ├── pages/         # 페이지별 컴포넌트
 │ ├── router/        # 라우팅
-| ├── util/          # 유틸함수들
 │ ├── App.tsx        # App 컴포넌트
 │ ├── index.tsx      # 진입점 파일
 │ └── GlobalStyle.ts # 전역 스타일 설정파일
