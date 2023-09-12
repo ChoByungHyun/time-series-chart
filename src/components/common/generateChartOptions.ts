@@ -6,6 +6,10 @@ const generateChartOptions = (
   data: Record<string, any>,
   handleFilter: (id: string | null) => void
 ) => {
+  const firstDataKey = Object.keys(data)[0];
+  const firstDataTimestamp = moment(firstDataKey, "YYYY-MM-DD HH:mm:ss");
+  const formattedDate = firstDataTimestamp.format("YYYY-MM-DD");
+
   return {
     scales: {
       leftYAxis: {
@@ -34,12 +38,13 @@ const generateChartOptions = (
         title: {
           display: true,
           align: "start",
-          text: moment(Object.keys(data)[0]).format("YYYY-MM-DD") + "일자",
+          text: formattedDate ? formattedDate : "",
         },
         ticks: {
           autoSkip: true,
           maxRotation: 0,
           autoSkipPadding: 15,
+          source: "data",
         },
       },
     },
