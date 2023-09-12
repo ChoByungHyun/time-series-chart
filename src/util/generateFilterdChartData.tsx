@@ -11,6 +11,7 @@ const generateFilteredChartData = (
         const dataIndex = context.dataIndex;
         const id = ids[dataIndex];
         if (id === highlightedId) {
+          // 하이라이트된 데이터의 경우 막대 그래프의 라벨 색상 변경
           return "rgba(0, 255, 60, 0.2)";
         } else {
           return dataset.label === "value_area"
@@ -25,8 +26,8 @@ const generateFilteredChartData = (
           return "rgba(0, 255, 60, 0)"; // 하이라이트된 데이터는 테두리 없음
         } else {
           return dataset.label === "value_area"
-            ? "rgba(75,192,192,0)" // Area 그래프의 기본 테두리
-            : "rgba(255,99,132,0)"; // Bar 그래프의 기본 테두리
+            ? "rgba(75,192,192,0.1)" // Area 그래프의 기본 테두리
+            : "rgba(255,99,132,0.1)"; // Bar 그래프의 기본 테두리
         }
       },
       borderWidth: (context: any) => {

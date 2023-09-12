@@ -15,8 +15,6 @@ const generateChartData = (
           below: "rgba(55, 55, 66, 0.2)",
         },
         borderWidth: 0,
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(255,99,132,1)",
 
         data: areaValues,
         yAxisID: "leftYAxis",
@@ -24,10 +22,6 @@ const generateChartData = (
       {
         type: "bar",
         label: "value_bar",
-        fill: false,
-        backgroundColor: "rgba(255,99,132,0.2)",
-        borderColor: "rgba(255,99,132,1)",
-        borderWidth: 1,
         data: barValues,
         yAxisID: "rightYAxis",
       },

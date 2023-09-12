@@ -21,6 +21,7 @@ import {
   Filler,
   Title,
   CategoryScale as CategoryScaleController,
+  Colors,
 } from "chart.js";
 
 ChartJS.register(
@@ -36,7 +37,8 @@ ChartJS.register(
   TimeScale,
   Filler,
   Title,
-  CategoryScaleController
+  CategoryScaleController,
+  Colors
 );
 
 interface DataPoint {
@@ -49,7 +51,7 @@ interface Props {
   data: { [key: string]: DataPoint };
 }
 
-const ComplexChart: React.FC<Props> = ({ data }) => {
+const DrowChart: React.FC<Props> = ({ data }) => {
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
@@ -115,4 +117,4 @@ const SFillterBtn = styled.button`
     color: white; // 하이라이트된 버튼의 텍스트 색상
   }
 `;
-export default ComplexChart;
+export default DrowChart;
