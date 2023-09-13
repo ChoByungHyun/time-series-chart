@@ -26,7 +26,7 @@ npm run start
 
 ## 🔗 배포 링크
 
-배포 URL - [time-series-chart-eight.vercel.app](time-series-chart-eight.vercel.app)
+배포 URL - [time-series-chart-eight.vercel.app](http://time-series-chart-eight.vercel.app)
 
 ## 🖼️ 실행 화면
 
