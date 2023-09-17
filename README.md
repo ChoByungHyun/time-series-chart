@@ -29,8 +29,7 @@ npm run start
 배포 URL - [time-series-chart-eight.vercel.app](http://time-series-chart-eight.vercel.app)
 
 ## 🖼️ 실행 화면
-
-![Alt text](image.png)
+<img width="804" alt="image" src="https://github.com/ChoByungHyun/time-series-chart/assets/102468625/2d9364bc-b67d-4b98-8ec1-067933565779" alt="main_image">
 
 ## 📂 폴더 구조
 
